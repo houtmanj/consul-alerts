@@ -16,4 +16,4 @@ RUN apk add --no-cache ca-certificates curl
 
 EXPOSE 9000
 CMD []
-ENTRYPOINT [ "/bin/consul-alerts", "--alert-addr=0.0.0.0:9000" ]
+ENTRYPOINT []
