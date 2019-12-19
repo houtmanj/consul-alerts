@@ -1,20 +1,18 @@
+FROM consul:1.6.2
 FROM golang:1.12-alpine
 ENV GOPATH /go
 
 RUN mkdir -p /go && \
     apk update && \
-    apk add bash ca-certificates git && \
+    apk add bash ca-certificates git curl && \
     GO111MODULE="off" go get -v github.com/uchiru/consul-alerts && \
-    mv /go/bin/consul-alerts /bin && \
-    GO111MODULE="off" go get -v github.com/hashicorp/consul && \
-    mv /go/bin/consul /bin && \
-    rm -rf /go && \
-    apk del --purge go git alpine-sdk && \
-    rm -rf /var/cache/apk/*]
+    mv /go/bin/consul-alerts /bin
 
 FROM alpine:3.8
-RUN apk add --no-cache ca-certificates
-COPY --from=0 /bin /bin
+
+COPY --from=0 /bin/consul /bin
+COPY --from=1 /bin/consul-alerts /bin
+RUN apk add --no-cache ca-certificates curl
 
 EXPOSE 9000
 CMD []
