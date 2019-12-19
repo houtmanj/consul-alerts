@@ -47,7 +47,7 @@ func (opsgenie *OpsGenieNotifier) Notify(messages Messages) bool {
     ok := true
     for _, message := range messages {
         // title := fmt.Sprintf("\n%s:%s:%s is %s.", message.Node, message.Service, message.Check, message.Status)
-        title := fmt.Sprintf("\n[%s] %s=>%s=>%s:%s", opsgenie.ClusterName, strings.ToUpper(message.Status), message.Node, strings.Replace(message.Service, "-main", "", 3), message.Output)
+        title := fmt.Sprintf("\n[%s] %s=>%s=>%s %s", opsgenie.ClusterName, strings.ToUpper(message.Status), message.Node, strings.Replace(message.Service, "-main", "", 3), message.Output)
         alias := opsgenie.createAlias(message)
         content := fmt.Sprintf(header, opsgenie.ClusterName, overallStatus, fail, warn, pass)
         content += fmt.Sprintf("\n%s:%s:%s is %s.", message.Node, message.Service, message.Check, message.Status)
