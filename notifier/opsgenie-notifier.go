@@ -36,7 +36,7 @@ func (opsgenie *OpsGenieNotifier) Notify(messages Messages) bool {
     client := new(ogcli.OpsGenieClient)
     client.SetAPIKey(opsgenie.ApiKey)
     client.SetOpsGenieAPIUrl(opsgenie.ApiUrl)
-    log.Debug(fmt.Sprintf("ApiUrl is: %s (%s)", client.OpsGenieAPIUrl()))
+    log.Info(fmt.Sprintf("ApiUrl is: %s and Key: %s", client.OpsGenieAPIUrl(), client.ApiKey()))
     alertCli, cliErr := client.AlertV2()
 
     if cliErr != nil {
@@ -47,7 +47,7 @@ func (opsgenie *OpsGenieNotifier) Notify(messages Messages) bool {
     ok := true
     for _, message := range messages {
         // title := fmt.Sprintf("\n%s:%s:%s is %s.", message.Node, message.Service, message.Check, message.Status)
-        title := fmt.Sprintf("\n%X:%s=>%s-%s:%s.", message.Status, opsgenie.ClusterName, message.Node, strings.Replace(message.Service, "-main", "", 3), message.Output)
+        title := fmt.Sprintf("\n[%s] %s=>%s=>%s:%s", opsgenie.ClusterName, strings.ToUpper(message.Status), message.Node, strings.Replace(message.Service, "-main", "", 3), message.Output)
         alias := opsgenie.createAlias(message)
         content := fmt.Sprintf(header, opsgenie.ClusterName, overallStatus, fail, warn, pass)
         content += fmt.Sprintf("\n%s:%s:%s is %s.", message.Node, message.Service, message.Check, message.Status)
