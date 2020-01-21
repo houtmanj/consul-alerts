@@ -148,7 +148,7 @@ func (c *CheckProcessor) notify(alerts []consul.Check) {
 			Node:         alert.Node,
 			ServiceId:    alert.ServiceID,
 			Service:      alert.ServiceName,
-			ServiceTags:  GetTags(alert.ServiceID)
+			ServiceTags:  GetTags(alert.ServiceID),
 			CheckId:      alert.CheckID,
 			Check:        alert.Name,
 			Status:       alert.Status,
