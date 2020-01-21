@@ -89,7 +89,7 @@ func (c *CheckProcessor) reminderRun() {
 			Output:      message.Output,
 			ServiceID:   message.ServiceId,
 			ServiceName: message.Service,
-			ServiceTags: message.ServiceTags,
+			// ServiceTags: message.ServiceTags,
 		}
 		if consulClient.IsBlacklisted(check) {
 			log.Printf("%s:%s:%s is blacklisted, deleting reminder", check.Node, check.ServiceID, check.CheckID)

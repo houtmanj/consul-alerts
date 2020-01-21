@@ -27,7 +27,7 @@ type Check struct {
 	Output      string
 	ServiceID   string
 	ServiceName string
-	ServiceTags []string
+	// ServiceTags []string
 }
 
 type ConsulAlertConfig struct {
