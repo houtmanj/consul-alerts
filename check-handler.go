@@ -3,9 +3,9 @@ package main
 import (
 	"math"
 	"time"
-
+	"fmt"
 	"net/http"
-
+	"encoding/json"
 	"github.com/uchiru/consul-alerts/consul"
 	"github.com/uchiru/consul-alerts/notifier"
 	// consulapi "github.com/uchiru/consul-alerts/Godeps/_workspace/src/github.com/hashicorp/consul/api"
@@ -35,9 +35,10 @@ func GetTags(service string) ([]string, error) {
 	defer resp.Body.Close()
 
 	var out []string
-	if err := decodeBody(resp, &out); err != nil {
-		return nil, nil, err
-	}
+	err = json.Unmarshal(resp.Body, &out)
+		if err != nil {
+			log.Error(err)
+		}
 	log.Printf("Got %s", out)
 	return out, nil
 }
