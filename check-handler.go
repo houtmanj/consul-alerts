@@ -8,7 +8,7 @@ import (
 
 	"github.com/uchiru/consul-alerts/consul"
 	"github.com/uchiru/consul-alerts/notifier"
-	consulapi "github.com/uchiru/consul-alerts/Godeps/_workspace/src/github.com/hasicorp/consul/api"
+	"github.com/uchiru/consul-alerts/Godeps/_workspace/src/github.com/hasicorp/consul/api"
 
 	log "github.com/uchiru/consul-alerts/Godeps/_workspace/src/github.com/Sirupsen/logrus"
 )
