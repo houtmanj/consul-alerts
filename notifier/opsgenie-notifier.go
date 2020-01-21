@@ -87,6 +87,7 @@ func (opsgenie *OpsGenieNotifier) createAlert(alertCli *ogcli.OpsGenieAlertV2Cli
         Alias:       alias,
         Source:      "consul",
         Entity:      opsgenie.ClusterName,
+        Tags:        message.ServiceTags
     }
     response, alertErr := alertCli.Create(req)
 

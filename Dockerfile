@@ -5,7 +5,7 @@ ENV GOPATH /go
 RUN mkdir -p /go && \
     apk update && \
     apk add bash ca-certificates git curl && \
-    GO111MODULE="off" go get -v github.com/uchiru/consul-alerts && \
+    GO111MODULE="off" go get -v github.com/uchiru/consul-alerts@E42-102_serviceTags && \
     mv /go/bin/consul-alerts /bin
 
 FROM alpine:3.8

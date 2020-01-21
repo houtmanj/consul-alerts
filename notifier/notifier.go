@@ -20,6 +20,7 @@ type Message struct {
 	Node         string
 	ServiceId    string
 	Service      string
+	ServiceTags  []string
 	CheckId      string
 	Check        string
 	Status       string
