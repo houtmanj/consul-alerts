@@ -78,7 +78,7 @@ func (opsgenie OpsGenieNotifier) createAlias(message Message) string {
     return incidentKey
 }
 
-func (opsgenie *OpsGenieNotifier) createAlert(alertCli *ogcli.OpsGenieAlertV2Client, message string, content string, alias string) bool {
+func (opsgenie *OpsGenieNotifier) createAlert(alertCli *ogcli.OpsGenieAlertV2Client, message string, content string, alias string, messageTags Message) bool {
     log.Debug(fmt.Sprintf("OpsGenieAlertClient.CreateAlert alias: %s", alias))
 
     req := alertsv2.CreateAlertRequest{
@@ -87,7 +87,7 @@ func (opsgenie *OpsGenieNotifier) createAlert(alertCli *ogcli.OpsGenieAlertV2Cli
         Alias:       alias,
         Source:      "consul",
         Entity:      opsgenie.ClusterName,
-        Tags:        message.ServiceTags,
+        Tags:        messageTags.ServiceTags,
     }
     response, alertErr := alertCli.Create(req)
 
