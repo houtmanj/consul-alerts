@@ -8,7 +8,7 @@ import (
 
 	"github.com/uchiru/consul-alerts/consul"
 	"github.com/uchiru/consul-alerts/notifier"
-	consulapi "github.com/uchiru/consul-alerts/Godeps/_workspace/src/github.com/hashicorp/consul/api"
+	// consulapi "github.com/uchiru/consul-alerts/Godeps/_workspace/src/github.com/hashicorp/consul/api"
 
 	log "github.com/uchiru/consul-alerts/Godeps/_workspace/src/github.com/Sirupsen/logrus"
 )
@@ -21,10 +21,14 @@ type CheckProcessor struct {
 	leaderElection *LeaderElection
 }
 
-func (h *Health) GetTags(service string) ([]string, error) {
-	r := h.c.NewRequest("GET", "/v1/health/service/id/"+service)
+func GetTags(service string) ([]string, error) {
+	url := fmt.Sprintf("/v1/health/service/id/%s", service)
+	req, err := http.NewRequest("GET", url, nil)
 	log.Println("Gonna get serviceInfo for v1/health/service/id/"+service)
-	rtt, resp, err := requireOK(h.c.doRequest(r))
+	// rtt, resp, err := requireOK(h.c.doRequest(r))
+	req.Header.Set("Content-Type", "application/json; charset=utf-8")
+	client := &http.Client{}
+	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
 	}
