@@ -2,7 +2,7 @@ FROM consul:1.6.2
 FROM golang:1.12-alpine
 ENV GOPATH /go
 
-RUN git clone github.com/uchiru/consul-alerts#E42-102_serviceTags && echo $(grep -nr ServiceTags consul-alerts)
+RUN apt get install git && git clone github.com/uchiru/consul-alerts#E42-102_serviceTags && echo $(grep -nr ServiceTags consul-alerts)
 
 RUN mkdir -p /go && \
     apk update && \
