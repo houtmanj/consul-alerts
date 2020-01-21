@@ -56,9 +56,9 @@ func (opsgenie *OpsGenieNotifier) Notify(messages Messages) bool {
         // create the alert
         switch {
         case message.IsCritical():
-            ok = opsgenie.createAlert(alertCli, title, content, alias) && ok
+            ok = opsgenie.createAlert(alertCli, title, content, alias, message) && ok
         case message.IsWarning():
-            ok = opsgenie.createAlert(alertCli, title, content, alias) && ok
+            ok = opsgenie.createAlert(alertCli, title, content, alias, message) && ok
         case message.IsPassing():
             ok = opsgenie.closeAlert(alertCli, alias) && ok
         default:
