@@ -21,21 +21,30 @@ type CheckProcessor struct {
 	leaderElection *LeaderElection
 }
 
-func GetTags(service string) ([]string, error) {
-	url := fmt.Sprintf("/v1/health/service/id/%s", service)
+// AgentService API response for /agent/service endpoint
+type AgentService struct {
+	Service		string		`json:"Service"`
+	ServiceID	string		`json:"ID"`
+	Port		int			`json:"Port"`
+	ServiceTags	*[]string	`json:"Tags"`
+}
+
+// GetTags is used to get tags for specified service thru consulAPI agent endpoint
+func GetTags(service string) (AgentService, error) {
+	url := fmt.Sprintf("/v1/agent/service/%s", service)
 	req, err := http.NewRequest("GET", url, nil)
-	log.Println("Gonna get serviceInfo for v1/health/service/id/"+service)
-	// rtt, resp, err := requireOK(h.c.doRequest(r))
+	log.Println("Gonna get serviceInfo for v1/agent/service/"+service)
 	req.Header.Set("Content-Type", "application/json; charset=utf-8")
 	client := &http.Client{}
 	resp, err := client.Do(req)
+	out := AgentService{}
 	if err != nil {
-		return nil, err
-	}
+		return out, err
+ 	}
 	defer resp.Body.Close()
 
-	var out []string
-	err = json.Decoder(resp.Body, &out)
+	decoder := json.NewDecoder(resp.Body)
+	err = decoder.Decode(out)
 		if err != nil {
 			log.Error(err)
 		}
