@@ -51,7 +51,10 @@ func GetTags(service string) ([]string) {
 			log.Error(err)
 		}
 	log.Printf("Got %s", out)
-	return out[0].ServiceTags
+	if out[0].ServiceTags != nil {
+		return out[0].ServiceTags
+	}
+	return nil
 }
 
 func (c *CheckProcessor) start() {
