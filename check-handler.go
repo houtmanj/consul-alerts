@@ -35,7 +35,7 @@ func GetTags(service string) ([]string, error) {
 	defer resp.Body.Close()
 
 	var out []string
-	err = json.Unmarshal(resp.Body, &out)
+	err = json.Decoder(resp.Body, &out)
 		if err != nil {
 			log.Error(err)
 		}
