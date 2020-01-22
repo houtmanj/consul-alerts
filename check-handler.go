@@ -26,11 +26,11 @@ type AgentService struct {
 	Service		string		`json:"Service"`
 	ServiceID	string		`json:"ID"`
 	Port		int			`json:"Port"`
-	ServiceTags	*[]string	`json:"Tags"`
+	ServiceTags	[]string	`json:"Tags"`
 }
 
 // GetTags is used to get tags for specified service thru consulAPI agent endpoint
-func GetTags(service string) (AgentService, error) {
+func GetTags(service string) ([]string, error) {
 	url := fmt.Sprintf("/v1/agent/service/%s", service)
 	req, err := http.NewRequest("GET", url, nil)
 	log.Println("Gonna get serviceInfo for v1/agent/service/"+service)
@@ -39,7 +39,7 @@ func GetTags(service string) (AgentService, error) {
 	resp, err := client.Do(req)
 	out := AgentService{}
 	if err != nil {
-		return out, err
+		return out.ServiceTags, err
  	}
 	defer resp.Body.Close()
 
@@ -49,7 +49,7 @@ func GetTags(service string) (AgentService, error) {
 			log.Error(err)
 		}
 	log.Printf("Got %s", out)
-	return out, nil
+	return out.ServiceTags, nil
 }
 
 func (c *CheckProcessor) start() {
