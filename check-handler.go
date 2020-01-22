@@ -30,7 +30,7 @@ type AgentService struct {
 }
 
 // GetTags is used to get tags for specified service thru consulAPI agent endpoint
-func GetTags(service string) ([]string, error) {
+func GetTags(service string) ([]string) {
 	url := fmt.Sprintf("/v1/agent/service/%s", service)
 	req, err := http.NewRequest("GET", url, nil)
 	log.Println("Gonna get serviceInfo for v1/agent/service/"+service)
@@ -39,7 +39,7 @@ func GetTags(service string) ([]string, error) {
 	resp, err := client.Do(req)
 	out := AgentService{}
 	if err != nil {
-		return out.ServiceTags, err
+		panic(err)
  	}
 	defer resp.Body.Close()
 
@@ -49,7 +49,7 @@ func GetTags(service string) ([]string, error) {
 			log.Error(err)
 		}
 	log.Printf("Got %s", out)
-	return out.ServiceTags, nil
+	return out.ServiceTags
 }
 
 func (c *CheckProcessor) start() {
@@ -157,11 +157,12 @@ func (c *CheckProcessor) notify(alerts []consul.Check) {
 	messages := make([]notifier.Message, len(alerts))
 	for i, alert := range alerts {
 		profileInfo := consulClient.GetProfileInfo(alert.Node, alert.ServiceID, alert.CheckID, alert.Status)
+		tags := GetTags(alert.ServiceID)
 		messages[i] = notifier.Message{
 			Node:         alert.Node,
 			ServiceId:    alert.ServiceID,
 			Service:      alert.ServiceName,
-			ServiceTags:  GetTags(alert.ServiceID),
+			ServiceTags:  tags,
 			CheckId:      alert.CheckID,
 			Check:        alert.Name,
 			Status:       alert.Status,
