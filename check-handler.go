@@ -31,7 +31,7 @@ type AgentService struct {
 
 // GetTags is used to get tags for specified service thru consulAPI agent endpoint
 func GetTags(service string) ([]string) {
-	url := fmt.Sprintf("https://master01-stage.runit.cc:8500/v1/agent/service/%s", service)
+	url := fmt.Sprintf("http://master01-stage.runit.cc:8500/v1/agent/service/%s", service)
 	req, err := http.NewRequest("GET", url, nil)
 	log.Println("Gonna get serviceInfo for v1/agent/service/"+service)
 	req.Header.Set("Content-Type", "application/json; charset=utf-8")
