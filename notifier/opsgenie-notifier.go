@@ -89,6 +89,7 @@ func (opsgenie *OpsGenieNotifier) createAlert(alertCli *ogcli.OpsGenieAlertV2Cli
         Entity:      opsgenie.ClusterName,
         Tags:        messageTags.ServiceTags,
     }
+    log.Printf("ServiceTags inside message are %s", req.Tags)
     response, alertErr := alertCli.Create(req)
 
     if alertErr != nil {
