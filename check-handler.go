@@ -51,10 +51,9 @@ func GetTags(service string) ([]string) {
 			log.Error(err)
 		}
 	log.Printf("Got %s", out)
-	if out[0].ServiceTags != nil {
-		log.Println("Got some tags")
+	if len(out) > 0 {
 		return out[0].ServiceTags
-	}
+	} 
 	log.Println("No tags found for "+service)
 	return nil
 }
