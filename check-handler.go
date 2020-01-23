@@ -180,7 +180,7 @@ func (c *CheckProcessor) notify(alerts []consul.Check) {
 			VarOverrides: profileInfo.VarOverrides,
 			Timestamp:    time.Now(),
 		}
-		log.Printf("ServiceTags inside message are %s" + messages[i].ServiceTags)
+		log.Printf("ServiceTags inside message are %s", messages[i].ServiceTags)
 		if profileInfo.Interval > 0 {
 			switch alert.Status {
 			case "passing":
