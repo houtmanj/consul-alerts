@@ -163,7 +163,7 @@ func (c *CheckProcessor) notify(alerts []consul.Check) {
 	messages := make([]notifier.Message, len(alerts))
 	for i, alert := range alerts {
 		profileInfo := consulClient.GetProfileInfo(alert.Node, alert.ServiceID, alert.CheckID, alert.Status)
-		tags := GetTags(alert.ServiceID)
+		tags := GetTags(alert.ServiceName)
 		messages[i] = notifier.Message{
 			Node:         alert.Node,
 			ServiceId:    alert.ServiceID,
@@ -180,7 +180,7 @@ func (c *CheckProcessor) notify(alerts []consul.Check) {
 			VarOverrides: profileInfo.VarOverrides,
 			Timestamp:    time.Now(),
 		}
-		log.Printf("ServiceTags inside message are %", messages[i].ServiceTags)
+		log.Println("ServiceTags inside message are " + messages[i].ServiceTags[string])
 		if profileInfo.Interval > 0 {
 			switch alert.Status {
 			case "passing":
