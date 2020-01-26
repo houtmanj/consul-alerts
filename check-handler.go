@@ -51,6 +51,7 @@ func GetTags(service string) ([]string) {
 			log.Error(err)
 		}
 	log.Printf("Got %s", out)
+	fmt.Printf("%+v\n",out)
 	if len(out) > 0 {
 		return out[0].ServiceTags
 	} 
