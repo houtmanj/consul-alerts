@@ -52,13 +52,14 @@ func (opsgenie *OpsGenieNotifier) Notify(messages Messages) bool {
         content := fmt.Sprintf(header, opsgenie.ClusterName, overallStatus, fail, warn, pass)
         content += fmt.Sprintf("\n%s:%s:%s is %s.", message.Node, message.Service, message.Check, message.Status)
         content += fmt.Sprintf("\n%s", message.Output)
-
+        tags := message.ServiceTags
+        log.Println("Before alert creation tags are: ", fmt.Sprintf("%s", tags))
         // create the alert
         switch {
         case message.IsCritical():
-            ok = opsgenie.createAlert(alertCli, title, content, alias, message) && ok
+            ok = opsgenie.createAlert(alertCli, title, content, alias, tags) && ok
         case message.IsWarning():
-            ok = opsgenie.createAlert(alertCli, title, content, alias, message) && ok
+            ok = opsgenie.createAlert(alertCli, title, content, alias, tags) && ok
         case message.IsPassing():
             ok = opsgenie.closeAlert(alertCli, alias) && ok
         default:
@@ -78,7 +79,7 @@ func (opsgenie OpsGenieNotifier) createAlias(message Message) string {
     return incidentKey
 }
 
-func (opsgenie *OpsGenieNotifier) createAlert(alertCli *ogcli.OpsGenieAlertV2Client, message string, content string, alias string, messageTags Message) bool {
+func (opsgenie *OpsGenieNotifier) createAlert(alertCli *ogcli.OpsGenieAlertV2Client, message string, content string, alias string, messageTags []string) bool {
     log.Debug(fmt.Sprintf("OpsGenieAlertClient.CreateAlert alias: %s", alias))
 
     req := alertsv2.CreateAlertRequest{
