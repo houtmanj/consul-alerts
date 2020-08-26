@@ -541,6 +541,17 @@ prefix: `consul-alerts/config/notifiers/opsgenie/`
 | enabled      | Enable the OpsGenie notifier. [Default: false]      |
 | cluster-name | The name of the cluster. [Default: "Consul Alerts"] |
 | api-key      | API Key                              (mandatory)    |
+| api-url      | Opsgenie api endpoint (default: us endpoint)        |
+| details      | key value map to add to each alert [Default: {}]    |
+
+The value of 'details' must be a json map of type string.
+```
+{
+  "environment": "production",
+  "platform":    "dc1"
+}
+```
+
 
 #### Amazon Web Services Simple Notification Service ("SNS")
 

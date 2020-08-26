@@ -15,6 +15,7 @@ type OpsGenieNotifier struct {
     ClusterName string `json:"cluster-name"`
     ApiKey      string `json:"api-key"`
     ApiUrl      string `json:"api-url"`
+    Details     map[string]string `json:"details"`
 }
 
 // NotifierName provides name for notifier selection
@@ -87,6 +88,7 @@ func (opsgenie *OpsGenieNotifier) createAlert(alertCli *ogcli.OpsGenieAlertV2Cli
         Alias:       alias,
         Source:      "consul",
         Entity:      opsgenie.ClusterName,
+        Details:     opsgenie.Details,
     }
     response, alertErr := alertCli.Create(req)
 

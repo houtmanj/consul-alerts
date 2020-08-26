@@ -222,6 +222,8 @@ func (c *ConsulAlertClient) LoadConfig() {
 				valErr = loadCustomValue(&config.Notifiers.OpsGenie.ApiKey, val, ConfigTypeString)
 			case "consul-alerts/config/notifiers/opsgenie/api-url":
 				valErr = loadCustomValue(&config.Notifiers.OpsGenie.ApiUrl, val, ConfigTypeString)
+			case "consul-alerts/config/notifiers/opsgenie/details":
+				valErr = loadCustomValue(&config.Notifiers.OpsGenie.Details, val, ConfigTypeStrMap)
 
 				// AwsSns notifier config
 			case "consul-alerts/config/notifiers/awssns/cluster-name":
